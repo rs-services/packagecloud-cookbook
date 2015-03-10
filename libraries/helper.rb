@@ -10,6 +10,7 @@ module PackageCloud
 
       http = Net::HTTP.new(uri.hostname, uri.port)
       http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
       resp = http.start { |h| h.request(req) }
 
@@ -29,6 +30,7 @@ module PackageCloud
 
       http = Net::HTTP.new(uri.hostname, uri.port)
       http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
       resp = http.start { |h|  h.request(req) }
 
