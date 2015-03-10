@@ -84,21 +84,16 @@ end
       file_log "Uri:#{uri.hostname}:#{uri.port}"
       ssl_config
       file_log print_ssl_config
+      env['SSL_CERT_FILE'] = '/opt/rightscale/sandbox/ssl/certs/ca-bundle.crt'
       http = Net::HTTP.new(uri.hostname, uri.port)
       if uri.port == 443
         http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
         http.cert_store = OpenSSL::X509::Store.new
         http.cert_store.set_default_paths
         options_mask = OpenSSL::SSL::OP_NO_SSLv2 + OpenSSL::SSL::OP_NO_SSLv3
         http.ssl_options = options_mask
-
-        if File.exists?('/etc/pki/tls/certs/ca-bundle.crt')
-          file_log "adding ca-bundle-new"
-          http.cert_store.add_file('/etc/pki/tls/certs/ca-bundle.crt')
-        else
-          file_log "new bundle does not exist"
-        end
+        http.cert_store.add_file('/etc/pki/tls/certs/ca-bundle.crt')
       else
         http.use_ssl = false
       end
