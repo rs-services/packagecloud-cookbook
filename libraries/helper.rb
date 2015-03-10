@@ -16,7 +16,7 @@ module PackageCloud
       file_log "Uri:#{uri.hostname}:#{uri.port}"
       http = Net::HTTP.new(uri.hostname, uri.port)
       if uri.port == 443
-        http.use_ssl = false
+        http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         http.cert_store = OpenSSL::X509::Store.new
         http.cert_store.set_default_paths
