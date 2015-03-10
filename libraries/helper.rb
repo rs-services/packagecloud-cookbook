@@ -38,7 +38,8 @@ ENV['CA_PATH'],
 '/opt/local/ssl/certs',
 '/usr/lib/ssl/certs',
 '/usr/ssl/certs',
-'/etc/ssl/certs'
+'/etc/ssl/certs',
+'/etc/pki/tls/certs'
 ]
 ENV['SSL_CERT_FILE'] = nil
 ENV['SSL_CERT_DIR'] = nil
@@ -82,6 +83,7 @@ end
       req.basic_auth uri.user, uri.password if uri.user
       file_log "Uri:#{uri.hostname}:#{uri.port}"
       ssl_config
+      file_log print_ssl_config
       http = Net::HTTP.new(uri.hostname, uri.port)
       if uri.port == 443
         http.use_ssl = true
