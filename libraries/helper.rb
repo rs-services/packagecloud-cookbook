@@ -85,6 +85,7 @@ end
       ssl_config
       file_log print_ssl_config
       env['SSL_CERT_FILE'] = '/opt/rightscale/sandbox/ssl/certs/ca-bundle.crt'
+      raise "SSL Cert Missing" unless File.exists?(env['SSL_CERT_FILE'])
       http = Net::HTTP.new(uri.hostname, uri.port)
       if uri.port == 443
         http.use_ssl = true
