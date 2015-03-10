@@ -59,7 +59,7 @@ def install_rpm
     base_url_endpoint.user     = new_resource.master_token
     base_url_endpoint.password = ''
   end
-  Chef::Log.info "entering get#{base_url_endpoint}"
+  Chef::Log.info "entering get(#{base_url_endpoint})"
   base_url = URI(get(base_url_endpoint, install_endpoint_params).body.chomp)
 
   Chef::Log.debug("#{new_resource.name} rpm base url = #{base_url}")
