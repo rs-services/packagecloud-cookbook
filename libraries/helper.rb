@@ -7,7 +7,7 @@ module PackageCloud
       req           = Net::HTTP::Get.new(uri.request_uri)
 
       req.basic_auth uri.user, uri.password if uri.user
-      Chef::Log.info "Uri:#{uri.hostname}:#{uri.port}"
+      puts "Uri:#{uri.hostname}:#{uri.port}"
       http = Net::HTTP.new(uri.hostname, uri.port)
       if uri.port == 443
         http.use_ssl = true
@@ -17,7 +17,7 @@ module PackageCloud
         if File.exists?('/etc/pki/tls/certs/ca-bundle-new.crt')
           http.cert_store.add_file('/etc/pki/tls/certs/ca-bundle-new.crt')
         else
-          Chef::Log.info "new bundle does not exist"
+          puts "new bundle does not exist"
         end
       else
         http.use_ssl = false
