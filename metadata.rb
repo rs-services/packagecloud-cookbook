@@ -12,4 +12,4 @@ attribute 'packagecloud/base_url',
   :display_name => 'packagecloud base url',
   :description => "Packagecloud base url",
   :required => 'optional',
-  :default => 'http://packagecloud.io'
+  :default => 'https://packagecloud.io'
