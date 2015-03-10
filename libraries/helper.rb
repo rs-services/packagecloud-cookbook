@@ -7,7 +7,7 @@ module PackageCloud
       req           = Net::HTTP::Get.new(uri.request_uri)
 
       req.basic_auth uri.user, uri.password if uri.user
-
+      Chef::Log.info "Uri:#{uri.hostname}:#{uri.port}"
       http = Net::HTTP.new(uri.hostname, uri.port)
       if uri.port == 443
         http.use_ssl = true
