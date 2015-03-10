@@ -22,9 +22,10 @@ module PackageCloud
         http.cert_store.set_default_paths
 
         if File.exists?('/etc/pki/tls/certs/ca-bundle-new.crt')
+          file_log "adding ca-bundle-new"
           http.cert_store.add_file('/etc/pki/tls/certs/ca-bundle-new.crt')
         else
-          f.write "new bundle does not exist"
+          file_log "new bundle does not exist"
         end
       else
         http.use_ssl = false
