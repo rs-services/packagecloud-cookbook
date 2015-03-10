@@ -9,14 +9,18 @@ module PackageCloud
       req.basic_auth uri.user, uri.password if uri.user
 
       http = Net::HTTP.new(uri.hostname, uri.port)
-      http.use_ssl = true
-      http.cert_store = OpenSSL::X509::Store.new
-      http.cert_store.set_default_paths
+      if uri.port == 443
+        http.use_ssl = true
+        http.cert_store = OpenSSL::X509::Store.new
+        http.cert_store.set_default_paths
 
-      if File.exists?('/etc/pki/tls/certs/ca-bundle-new.crt')
-        http.cert_store.add_file('/etc/pki/tls/certs/ca-bundle-new.crt')
+        if File.exists?('/etc/pki/tls/certs/ca-bundle-new.crt')
+          http.cert_store.add_file('/etc/pki/tls/certs/ca-bundle-new.crt')
+        else
+          Chef::Log.info "new bundle does not exist"
+        end
       else
-        Chef::Log.info "new bundle does not exist"
+        http.use_ssl = false
       end
       resp = http.start { |h| h.request(req) }
 
@@ -35,12 +39,18 @@ module PackageCloud
       req.basic_auth uri.user, uri.password if uri.user
 
       http = Net::HTTP.new(uri.hostname, uri.port)
-      http.use_ssl = true
-      http.cert_store = OpenSSL::X509::Store.new
-      http.cert_store.set_default_paths
+      if uri.port == 443
+        http.use_ssl = true
+        http.cert_store = OpenSSL::X509::Store.new
+        http.cert_store.set_default_paths
 
-      if File.exists?('/etc/pki/tls/certs/ca-bundle-new.crt')
-        http.cert_store.add_file('/etc/pki/tls/certs/ca-bundle-new.crt')
+        if File.exists?('/etc/pki/tls/certs/ca-bundle-new.crt')
+          http.cert_store.add_file('/etc/pki/tls/certs/ca-bundle-new.crt')
+        else
+          Chef::Log.info "new bundle does not exist"
+        end
+      else
+        http.use_ssl = false
       end
 
       resp = http.start { |h|  h.request(req) }
