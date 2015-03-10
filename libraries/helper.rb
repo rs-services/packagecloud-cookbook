@@ -10,8 +10,12 @@ module PackageCloud
 
       http = Net::HTTP.new(uri.hostname, uri.port)
       http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      http.cert_store = OpenSSL::X509::Store.new
+      http.cert_store.set_default_paths
 
+      if File.exists?('/etc/pki/tls/certs/ca-bundle-new.crt')
+        http.cert_store.add_file('/etc/pki/tls/certs/ca-bundle-new.crt')
+      end
       resp = http.start { |h| h.request(req) }
 
       case resp
@@ -30,7 +34,12 @@ module PackageCloud
 
       http = Net::HTTP.new(uri.hostname, uri.port)
       http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      http.cert_store = OpenSSL::X509::Store.new
+      http.cert_store.set_default_paths
+
+      if File.exists?('/etc/pki/tls/certs/ca-bundle-new.crt')
+        http.cert_store.add_file('/etc/pki/tls/certs/ca-bundle-new.crt')
+      end
 
       resp = http.start { |h|  h.request(req) }
 
