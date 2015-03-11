@@ -1,4 +1,5 @@
 require 'net/https'
+require 'openssl'
 
 module PackageCloud
   module Helper
@@ -84,8 +85,8 @@ end
       file_log "Uri:#{uri.hostname}:#{uri.port}"
       ssl_config
       file_log print_ssl_config
-      env['SSL_CERT_FILE'] = '/opt/rightscale/sandbox/ssl/certs/ca-bundle.crt'
-      raise "SSL Cert Missing" unless File.exists?(env['SSL_CERT_FILE'])
+      ENV['SSL_CERT_FILE'] = '/opt/rightscale/sandbox/ssl/certs/ca-bundle.crt'
+      raise "SSL Cert Missing" unless File.exists?(ENV['SSL_CERT_FILE'])
       http = Net::HTTP.new(uri.hostname, uri.port)
       if uri.port == 443
         http.use_ssl = true
@@ -93,7 +94,7 @@ end
         http.cert_store = OpenSSL::X509::Store.new
         http.cert_store.set_default_paths
         options_mask = OpenSSL::SSL::OP_NO_SSLv2 + OpenSSL::SSL::OP_NO_SSLv3
-        http.ssl_options = options_mask
+        #http.ssl_options = options_mask
         http.cert_store.add_file('/etc/pki/tls/certs/ca-bundle.crt')
       else
         http.use_ssl = false
